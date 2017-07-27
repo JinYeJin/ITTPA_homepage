@@ -2,6 +2,8 @@ package com.worldfriends.spectrum.ittpa_homepage;
 
 import android.Manifest;
 import android.app.Activity;
+import android.os.AsyncTask;
+import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,8 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -104,4 +110,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private class GetDiscoveryBoardContentsTitle extends AsyncTask<Void, Void, Map<String, String>>
+    {
+
+        @Override
+        protected Map<String, String> doInBackground(Void... params) {
+            try
+            {
+                Document document = Jsoup.connect("http://thanhhoatourism.gov.vn").get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }

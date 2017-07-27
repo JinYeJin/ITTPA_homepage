@@ -1,5 +1,7 @@
 package com.worldfriends.spectrum.ittpa_homepage;
 
+import android.Manifest;
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,9 +9,16 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+    /*
     private WebView myWebView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,4 +67,41 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
+
+    private TextView discoveryBoardTitle;
+    private ArrayList<ImageView> discoveryBoardImages;
+    private ArrayList<TextView> discoveryBoardTexts;
+
+
+    //Get the internet permission
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        PermissionRequester.Builder request = new PermissionRequester.Builder(this);
+        request.create().request(Manifest.permission.INTERNET, 10000, new PermissionRequester.OnClickDenyButtonListener() {
+            @Override
+            public void onClick(Activity activity) {
+                Toast.makeText(activity, "인터넷 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                activity.finish();
+            }
+        });
+
+        discoveryBoardTitle = (TextView)findViewById(R.id.discoveryBoardTitle);
+
+        //ID value initializing
+        for(int i =0; i < 6; i++)
+        {
+            String imageID = "R.id.discoveryBoardImage" + i;
+            String textID = "R.id.discoveryBoardText" + i;
+            int TextResID = getResources().getIdentifier(textID, "id", this.getPackageName());
+            int ImageResID =  getResources().getIdentifier(imageID, "id", this.getPackageName());
+            //discoveryBoardImages[i] =(ImageView)findViewById(resID);
+            discoveryBoardTexts.add((TextView)findViewById(TextResID));
+            discoveryBoardImages.add((ImageView)findViewById(ImageResID));
+        }
+    }
+
 }

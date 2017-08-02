@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -76,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
     */
 
     private TextView discoveryBoardTitle;
-    private ArrayList<ImageView> discoveryBoardImages;
-    private ArrayList<TextView> discoveryBoardTexts;
+    private ArrayList<ImageView> discoveryBoardImages = new ArrayList<ImageView>();
+    private ArrayList<TextView> discoveryBoardTexts = new ArrayList<TextView>();
 
 
     //Get the internet permission
@@ -95,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //ID value initializing
         discoveryBoardTitle = (TextView)findViewById(R.id.discoveryBoardTitle);
 
-        //ID value initializing
         for(int i =0; i < 6; i++)
         {
             String imageID = "R.id.discoveryBoardImage" + i;
@@ -110,18 +112,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        GetDiscoveryBoardContentsTitle task = new GetDiscoveryBoardContentsTitle();
+        task.execute();
+    }
+
     private class GetDiscoveryBoardContentsTitle extends AsyncTask<Void, Void, Map<String, String>>
     {
 
         @Override
-        protected Map<String, String> doInBackground(Void... params) {
+        protected Map<String, String> doInBackground(Void... params)
+        {
+            Map<String, String> result = new HashMap<String, String>();
             try
             {
                 Document document = Jsoup.connect("http://thanhhoatourism.gov.vn").get();
+                Elements elements = document.select("div .topkhampha div");
+                result.put("discoveryBoardTitle", elements.text());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Map<String, String> map)
+        {
+            discoveryBoardTitle.setText(map.get("discoveryBoardTitle"));
         }
     }
 }

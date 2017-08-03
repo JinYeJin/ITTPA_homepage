@@ -2,6 +2,7 @@ package com.worldfriends.spectrum.ittpa_homepage;
 
 import android.Manifest;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
-    private TextView discoveryBoardTitle;
-    private ArrayList<ImageView> discoveryBoardImages = new ArrayList<ImageView>();
-    private ArrayList<TextView> discoveryBoardTexts = new ArrayList<TextView>();
+    private TextView discoveryBoardTitle = null;
+    private ImageView[] discoveryBoardImages = new ImageView[6];
+    //private ArrayList<ImageView> discoveryBoardImages = new ArrayList<ImageView>();
+    private TextView[] discoveryBoardTexts = new TextView[6];
 
 
     //Get the internet permission
@@ -104,11 +109,12 @@ public class MainActivity extends AppCompatActivity {
         {
             String imageID = "R.id.discoveryBoardImage" + i;
             String textID = "R.id.discoveryBoardText" + i;
-            int TextResID = getResources().getIdentifier(textID, "id", this.getPackageName());
-            int ImageResID =  getResources().getIdentifier(imageID, "id", this.getPackageName());
-            //discoveryBoardImages[i] =(ImageView)findViewById(resID);
-            discoveryBoardTexts.add((TextView)findViewById(TextResID));
-            discoveryBoardImages.add((ImageView)findViewById(ImageResID));
+            int TextResID = getResources().getIdentifier(textID, "id", getPackageName());
+            int ImageResID =  getResources().getIdentifier(imageID, "id", getPackageName());
+            discoveryBoardTexts[i] = (TextView) findViewById(TextResID);
+            //discoveryBoardTexts.add((TextView)findViewById(TextResID));
+            discoveryBoardImages[i] = (ImageView)findViewById(ImageResID);
+            //discoveryBoardImages.add((ImageView)findViewById(ImageResID));
         }
     }
 
@@ -117,11 +123,11 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onResume();
 
-        GetDiscoveryBoardContentsTitle task = new GetDiscoveryBoardContentsTitle();
+        GetDiscoveryBoardContentsText task = new GetDiscoveryBoardContentsText();
         task.execute();
     }
 
-    private class GetDiscoveryBoardContentsTitle extends AsyncTask<Void, Void, Map<String, String>>
+    private class GetDiscoveryBoardContentsText extends AsyncTask<Void, Void, Map<String, String>>
     {
 
         @Override
@@ -144,6 +150,41 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Map<String, String> map)
         {
             discoveryBoardTitle.setText(map.get("discoveryBoardTitle"));
+
+            for( int i = 0; i < 6; i++) {
+                GetDiscoveryBoardContentsIamges task1 = new GetDiscoveryBoardContentsIamges();
+                task1.execute(map.get("discoveryBoardImage" + i), "discoveryBoardImage" + i);
+            }
+        }
+    }
+
+    private class GetDiscoveryBoardContentsIamges extends AsyncTask<String, Void, Bitmap>
+    {
+        private String type;
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            type = params[1];
+
+            Bitmap bitmap = null;
+            try
+            {
+                URL url = new URL("http://thanhhoatourism.gov.vn" + params[0]);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return bitmap;
+        }
+        protected  void onPostExecute(Bitmap bitmap)
+        {
+            discoveryBoardImages[0].setImageBitmap(bitmap);
         }
     }
 }

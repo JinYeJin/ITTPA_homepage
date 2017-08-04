@@ -3,6 +3,7 @@ package com.worldfriends.spectrum.ittpa_homepage;
 import android.Manifest;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -107,8 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
         for(int i =0; i < 6; i++)
         {
-            String imageID = "R.id.discoveryBoardImage" + i;
-            String textID = "R.id.discoveryBoardText" + i;
+            String imageID = "discoveryBoardImage" + i;
+            String textID = "discoveryBoardText" + i;
+            //String TextResID = getResources().getString();
             int TextResID = getResources().getIdentifier(textID, "id", getPackageName());
             int ImageResID =  getResources().getIdentifier(imageID, "id", getPackageName());
             discoveryBoardTexts[i] = (TextView) findViewById(TextResID);
@@ -149,42 +151,73 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Map<String, String> map)
         {
+            String discoveryBoardImages[] = {"vanhoa-lehoi.jpg", "bien.jpg", "langnghe.jpg", "sinhthai.jpg", "dacsan.jpg", "Toan-canh-Nghi-S%C6%A1n.jpg"};
             discoveryBoardTitle.setText(map.get("discoveryBoardTitle"));
 
             for( int i = 0; i < 6; i++) {
                 GetDiscoveryBoardContentsIamges task1 = new GetDiscoveryBoardContentsIamges();
-                task1.execute(map.get("discoveryBoardImage" + i), "discoveryBoardImage" + i);
+                task1.execute(discoveryBoardImages[i], "discoveryBoardImage" + i);
             }
         }
     }
 
     private class GetDiscoveryBoardContentsIamges extends AsyncTask<String, Void, Bitmap>
     {
-        private String type;
+        private String imageType = null;
+        private String testParam = null;
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            type = params[1];
+            imageType = params[1];
+            testParam = params[0];
 
             Bitmap bitmap = null;
             try
             {
-                URL url = new URL("http://thanhhoatourism.gov.vn" + params[0]);
+                URL url = new URL("http://thanhhoatourism.gov.vn/ImageMenu/" + params[0]);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
+
+                conn.connect();
+
+                bitmap = BitmapFactory.decodeStream(conn.getInputStream());
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return bitmap;
+`               return bitmap;
         }
         protected  void onPostExecute(Bitmap bitmap)
         {
-            discoveryBoardImages[0].setImageBitmap(bitmap);
+           if(imageType.equals("discoveryBoardImage0"))
+           {
+               discoveryBoardImages[0].setImageBitmap(bitmap);
+           }
+           else if(imageType.equals("discoveryBoardImage1"))
+           {
+               discoveryBoardImages[1].setImageBitmap(bitmap);
+           }
+           else if(imageType.equals("discoveryBoardImage2"))
+           {
+               discoveryBoardImages[2].setImageBitmap(bitmap);
+           }
+           else if(imageType.equals("discoveryBoardImage3"))
+           {
+               discoveryBoardImages[3].setImageBitmap(bitmap);
+           }
+           else if(imageType.equals("discoveryBoardImage4"))
+           {
+               discoveryBoardImages[4].setImageBitmap(bitmap);
+           }
+           else if(imageType.equals("discoveryBoardImage5"))
+           {
+               discoveryBoardImages[5].setImageBitmap(bitmap);
+           }
         }
     }
 }

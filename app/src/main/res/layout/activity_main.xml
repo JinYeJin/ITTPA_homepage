@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.worldfriends.spectrum.ittpa_homepage.MainActivity">
+    tools:context="com.worldfriends.spectrum.ittpa_homepage.MainActivity"
+    android:id="@+id/content_frame"
+    android:background="#3736FF"
+    >
 
     <WebView
         android:layout_width="match_parent"
@@ -15,5 +18,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        />
+        >
+
+
+    </WebView>
+
+
+
+
+
+
 </RelativeLayout>

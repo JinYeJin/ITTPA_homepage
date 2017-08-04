@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class MenuOneFragment extends SherlockFragment {
-	private WebView myWebView;
+
 	TextView textTitleBar;
 	View v;
 
@@ -28,7 +28,7 @@ public class MenuOneFragment extends SherlockFragment {
 
 
 		textTitleBar = (TextView) getSherlockActivity().findViewById(R.id.textTitle);
-		textTitleBar.setText("Main");
+		textTitleBar.setText("Thanh hoa ITTPA hompage");
 
 
 		return v;

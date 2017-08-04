@@ -1,21 +1,27 @@
 package com.worldfriends.spectrum.ittpa_homepage;
 
 //import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.support.v4.app.Fragment;
+import android.widget.Button;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends SlidingFragmentActivity {
 
     private Fragment mContent;
     private WebView myWebView;
+    Button btnToggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,7 @@ public class MainActivity extends BaseActivity {
         if (mContent == null)
             mContent = new MenuOneFragment();
 
-        setContentView(R.layout.content_frame);
+        //setContentView(R.layout.content_frame);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mContent).commit();
 
         // 메뉴 설정
@@ -47,6 +53,25 @@ public class MainActivity extends BaseActivity {
         sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         sm.setFadeDegree(0.35f);
         sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+
+
+        // 액션바 설정
+        //getSupportActionBar().setTitle("Thanh hoa ITTPA Homepage");
+          getSupportActionBar().setDisplayShowCustomEnabled(true);
+         //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+          getSupportActionBar().setCustomView(R.layout.action_bar);
+
+          getSupportActionBar().show();
+
+        // 메뉴 토글 버튼 추가
+        btnToggle = (Button) findViewById(R.id.btnToggle);
+        btnToggle.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View v) {
+               toggle();
+           }
+        });
+
+
     }
 
     @Override
@@ -86,6 +111,7 @@ public class MainActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -93,4 +119,17 @@ public class MainActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent Data) {
+        super.onActivityResult(requestCode, resultCode, Data);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
+
+
 }

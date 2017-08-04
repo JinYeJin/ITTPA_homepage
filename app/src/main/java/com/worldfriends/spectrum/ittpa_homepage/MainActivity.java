@@ -165,20 +165,22 @@ public class MainActivity extends AppCompatActivity {
     {
         private String imageType = null;
         private String testParam = null;
+        Bitmap bitmap = null;
 
         @Override
         protected Bitmap doInBackground(String... params) {
             imageType = params[1];
             testParam = params[0];
 
-            Bitmap bitmap = null;
             try
             {
+
+
                 URL url = new URL("http://thanhhoatourism.gov.vn/ImageMenu/" + params[0]);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setDoInput(true);
-                conn.setDoOutput(true);
+                //conn.setDoOutput(true);
 
                 conn.connect();
 
@@ -189,8 +191,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-`               return bitmap;
+            return bitmap;
         }
         protected  void onPostExecute(Bitmap bitmap)
         {

@@ -26,7 +26,7 @@ public class MenuFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		String[] data = { "Main", "메뉴2" };
+		String[] data = { "Main", "메뉴2" ,"메뉴3","메뉴4"};
 
 		View v = inflater.inflate(R.layout.menu_frame, container, false);
 
@@ -46,6 +46,14 @@ public class MenuFragment extends SherlockFragment {
 				case 1:
 					newContent = new MenuTwoFragment();
 					break;
+				case 2:
+					newContent= new MenuThreeFragment();
+					break;
+				case 3:
+					newContent = new MenuFourFragment();
+					break;
+
+
 				}
 
 				if (newContent != null)

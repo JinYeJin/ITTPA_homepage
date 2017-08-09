@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ITTPA_homepage.iml" filepath="$PROJECT_DIR$/ITTPA_homepage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ITTPA_homepage-issue_2-transform_action_bar.iml" filepath="$PROJECT_DIR$/ITTPA_homepage-issue_2-transform_action_bar.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/SlidingMenu-master/SlidingMenu-master.iml" filepath="$PROJECT_DIR$/libraries/SlidingMenu-master/SlidingMenu-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/actionbarsherlock/actionbarsherlock.iml" filepath="$PROJECT_DIR$/libraries/actionbarsherlock/actionbarsherlock.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
